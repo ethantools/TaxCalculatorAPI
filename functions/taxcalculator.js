@@ -18,9 +18,9 @@ router.get('/', (req, res) => {
 })
 
 function getTaxData(year, state) {
-    const federal = JSON.parse(fs.readFileSync(path.join(__dirname, `../tax_data/${year}/federal.json`)));
-    const fica = JSON.parse(fs.readFileSync(path.join(__dirname, `../tax_data/${year}/fica.json`)));
-    const stateData = JSON.parse(fs.readFileSync(path.join(__dirname, `../tax_data/${year}/state/${state.toLowerCase()}.json`)));
+    const federal = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/federal.json`)));
+    const fica = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/fica.json`)));
+    const stateData = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/state/${state.toLowerCase()}.json`)));
     return { federal, fica, state: stateData };
 }
 
@@ -92,7 +92,7 @@ router.get('/taxbreakdown/:gross/:status/:state', (req, res) => {
 
 // Add this route temporarily for debugging
 router.get('/debug/files', (req, res) => {
-    const dir = path.join(__dirname, '../functions/tax_data/2025/state');
+    const dir = path.join(__dirname, 'tax_data/2025/state');
     try {
         const files = fs.readdirSync(dir);
         res.json({ files });
