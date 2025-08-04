@@ -1,0 +1,24 @@
+{
+    "standard_deductions" : {
+        "single": 1500,
+        "married": 30000
+    },
+    "single" : [
+        { "bracket": 0, "rate": 0.1 },
+        { "bracket": 11925, "rate": 0.12 },
+        { "bracket": 48475, "rate": 0.22 },
+        { "bracket": 103350, "rate": 0.24 },
+        { "bracket": 197300, "rate": 0.32 },
+        { "bracket": 250525, "rate": 0.35 },
+        { "bracket": 626350, "rate": 0.37 }
+    ],
+    "married" : [
+        { "bracket": 0, "rate": 0.1 },
+        { "bracket": 23850, "rate": 0.12 },
+        { "bracket": 96950, "rate": 0.22 },
+        { "bracket": 206700, "rate": 0.24 },
+        { "bracket": 394600, "rate": 0.32 },
+        { "bracket": 501050, "rate": 0.35 },
+        { "bracket": 751600, "rate": 0.37 }
+    ]
+}

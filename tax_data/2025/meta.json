@@ -1,0 +1,13 @@
+{
+    "pay_frequency": {
+        "weekly": 52,
+        "biweekly": 26,
+        "monthly": 12,
+        "quarterly": 4,
+        "annually": 1
+    },
+    "filing_statuses": [
+        "single",
+        "married"
+    ]
+}

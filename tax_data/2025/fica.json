@@ -1,0 +1,14 @@
+{
+    "social_security" : {
+        "rate" : 0.062,
+        "cap" : 176100
+    },
+    "medicare" : {
+        "rate" : 0.0145,
+        "additional_rate" : 0.009,
+        "thresholds" : {
+            "single": 200000,
+            "married": 200000
+        }
+    }
+}
