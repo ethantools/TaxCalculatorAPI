@@ -1,4 +1,4 @@
-# Stock Information API
+# Tax calculator API
 API for calculating net income or tax breakdown.
 
 The API is deployed live at: https://netincomecalculator.netlify.app/.netlify/functions/taxcalculator

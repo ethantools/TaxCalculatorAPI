@@ -1,7 +1,7 @@
 {
-  "name": "dividendapi",
+  "name": "taxcalculatorapi",
   "version": "1.0.0",
-  "description": "An API that return dividends for a certain symbol",
+  "description": "An API that returns net income and tax breakdown.",
   "main": "index.js",
   "scripts": {
     "build": "netlify deploy --prod",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexstaniea/DividendAPI.git"
+    "url": "git+https://github.com/ethantools/TaxCalculatorAPI.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alexstaniea/DividendAPI/issues"
+    "url": "https://github.com/ethantools/tax/issues"
   },
-  "homepage": "https://github.com/alexstaniea/DividendAPI#readme",
+  "homepage": "https://github.com/ethantools/TaxCalculatorAPI#readme",
   "dependencies": {
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
