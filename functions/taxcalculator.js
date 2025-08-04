@@ -90,6 +90,17 @@ router.get('/taxbreakdown/:gross/:status/:state', (req, res) => {
     }
 });
 
+// Add this route temporarily for debugging
+router.get('/debug/files', (req, res) => {
+    const dir = path.join(__dirname, '../functions/tax_data/2025/state');
+    try {
+        const files = fs.readdirSync(dir);
+        res.json({ files });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
