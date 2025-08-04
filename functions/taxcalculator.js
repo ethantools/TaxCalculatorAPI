@@ -74,7 +74,7 @@ router.get('/taxbreakdown/:gross/:status/:state', (req, res) => {
     if (!['single', 'married'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
     try {
-        const { federal, fica, state: stateData } = getTaxData(year, state.toUpperCase());
+        const { federal, fica, state: stateData } = getTaxData(year, state.toLowerCase());
         const fedTax = calculateBracketTax(federal[status], grossIncome);
         const stateTax = calculateBracketTax(stateData[status], grossIncome);
         const { ssTax, medicareTax } = calculateFica(fica, grossIncome, status);
