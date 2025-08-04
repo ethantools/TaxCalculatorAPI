@@ -1,11 +1,8 @@
 # Stock Information API
-API to get dividend history for a symbol
+API for calculating net income or tax breakdown.
 
-The API is deployed live at: https://dividendapi.netlify.app/.netlify/functions/stockinformation
+The API is deployed live at: https://dividendapi.netlify.app/.netlify/functions/taxcalculator
 
 # Example GET Request
-To get the dividend information for Reality Income you can make a GET request on: 
-https://dividendapi.netlify.app/.netlify/functions/stockinformation/dividend/o
-
-To get the percentage returned by Reality Income between 14/04/2020 and 16/04/2020 you can make a GET request on:
-https://dividendapi.netlify.app/.netlify/functions/stockinformation/return/O/14-04-2020/16-04-2020
+To get the tax breakdown you can make a GET request on: 
+https://dividendapi.netlify.app/.netlify/functions/taxcalculator/taxbreakdown/:gross/:status/:state
