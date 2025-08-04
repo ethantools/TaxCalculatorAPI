@@ -18,9 +18,9 @@ router.get('/', (req, res) => {
 })
 
 function getTaxData(year, state) {
-    const federal = JSON.parse(fs.readFileSync(path.join(__dirname, `../functions/tax_data/${year}/federal.json`)));
-    const fica = JSON.parse(fs.readFileSync(path.join(__dirname, `../functions/tax_data/${year}/fica.json`)));
-    const stateData = JSON.parse(fs.readFileSync(path.join(__dirname, `../functions/tax_data/${year}/state/${state.toLowerCase()}.json`)));
+    const federal = JSON.parse(fs.readFileSync(path.join(__dirname, `../tax_data/${year}/federal.json`)));
+    const fica = JSON.parse(fs.readFileSync(path.join(__dirname, `../tax_data/${year}/fica.json`)));
+    const stateData = JSON.parse(fs.readFileSync(path.join(__dirname, `../tax_data/${year}/state/${state.toLowerCase()}.json`)));
     return { federal, fica, state: stateData };
 }
 
@@ -54,7 +54,7 @@ router.get('/netincome/:gross/:status/:state', (req, res) => {
     if (!['single', 'married'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
     try {
-        const { federal, fica, state: stateData } = getTaxData(year, state.toUpperCase());
+        const { federal, fica, state: stateData } = getTaxData(year, state.toLowerCase());
         const fedTax = calculateBracketTax(federal[status], grossIncome);
         const stateTax = calculateBracketTax(stateData[status], grossIncome);
         const { ssTax, medicareTax } = calculateFica(fica, grossIncome, status);
