@@ -1,0 +1,8 @@
+{
+    "single" : [
+        { "bracket": 10000, "rate": 0.044 }
+    ],
+    "married" : [
+        { "bracket": 10000, "rate": 0.044 }
+    ]
+}
