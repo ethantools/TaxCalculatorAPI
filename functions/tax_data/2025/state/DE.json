@@ -1,0 +1,18 @@
+{
+    "single" : [
+        { "bracket": 2000, "rate": 0.022 },
+        { "bracket": 5000, "rate": 0.039 },
+        { "bracket": 10000, "rate": 0.048 },
+        { "bracket": 20000, "rate": 0.052 },
+        { "bracket": 25000, "rate": 0.0555 },
+        { "bracket": 60000, "rate": 0.066 }
+    ],
+    "married" : [
+        { "bracket": 2000, "rate": 0.022 },
+        { "bracket": 5000, "rate": 0.039 },
+        { "bracket": 10000, "rate": 0.048 },
+        { "bracket": 20000, "rate": 0.052 },
+        { "bracket": 25000, "rate": 0.0555 },
+        { "bracket": 60000, "rate": 0.066 }
+    ]
+}
