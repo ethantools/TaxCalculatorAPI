@@ -55,6 +55,9 @@ router.get('/netincome/:gross/:status/:state', (req, res) => {
 
     try {
         const { federal, fica, state: stateData } = getTaxData(year, state.toLowerCase());
+        console.log('stateData:', stateData);
+        console.log('status:', status);
+        console.log('stateData[status]:', stateData[status]);
         const fedTax = calculateBracketTax(federal[status], grossIncome);
         const stateTax = calculateBracketTax(stateData[status], grossIncome);
         const { ssTax, medicareTax } = calculateFica(fica, grossIncome, status);
@@ -62,6 +65,7 @@ router.get('/netincome/:gross/:status/:state', (req, res) => {
         const netIncome = grossIncome - fedTax - stateTax - ssTax - medicareTax;
         res.json({ netIncome: netIncome.toFixed(2) });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: 'Tax data not found for provided state.' });
     }
 });
