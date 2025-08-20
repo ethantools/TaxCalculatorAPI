@@ -1,5 +1,5 @@
 [build]
-    functions="functions"
+    functions ="functions"
 
 [functions]
     included_files = ["functions/tax_data/**"]
