@@ -58,7 +58,7 @@ function calculateFica(fica, gross, filing_status) {
 // Updated: Add 'retirement' argument and logic
 router.get('/netincome/:year/:gross/:status/:state/:dependents/:retirement', (req, res) => {
     const { year, gross, status, state, dependents, retirement } = req.params;
-    const tax_year = path.Int(year) || '2025'; // Default to 2025 if not provided
+    const tax_year = parseInt(year) || 2025; // Default to 2025 if not provided
     const grossIncome = parseFloat(gross);
     const filing_status = req.params.status.toLowerCase();
     const numDependents = parseInt(dependents) || 0;
@@ -130,7 +130,7 @@ router.get('/netincome/:year/:gross/:status/:state/:dependents/:retirement', (re
 // Updated: Add 'retirement' argument and logic
 router.get('/taxbreakdown/:gross/:status/:state/:dependents/:retirement', (req, res) => {
     const { year, gross, status, state, dependents, retirement } = req.params;
-    const tax_year = path.Int(year) || '2025'; // Default to 2025 if not provided
+    const tax_year = parseInt(year) || 2025; // Default to 2025 if not provided
     const grossIncome = parseFloat(gross);
     const filing_status = req.params.status.toLowerCase();
     const numDependents = parseInt(dependents) || 0;
