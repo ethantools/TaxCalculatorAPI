@@ -58,6 +58,10 @@ router.get('/netincome/:year/:gross/:status/:state/:dependents/:retirement', (re
     const filing_status = req.params.status.toLowerCase();
     const numDependents = parseInt(dependents) || 0;
     const retirementPct = parseFloat(retirement) || 0;
+    const yearDir = path.join(__dirname, `tax_data/${tax_year}`);
+    if (!fs.existsSync(yearDir)) {
+        return res.status(400).json({ error: 'Data not available for year' });
+    }
     if (!['single', 'married'].includes(filing_status)) return res.status(400).json({ error: 'Invalid status' });
 
     try {
@@ -123,13 +127,17 @@ router.get('/netincome/:year/:gross/:status/:state/:dependents/:retirement', (re
 // Updated: Add dependents argument and apply deductions/exemptions
 
 // Updated: Add 'retirement' argument and logic
-router.get('/taxbreakdown/:gross/:status/:state/:dependents/:retirement', (req, res) => {
+router.get('/taxbreakdown/:year/:gross/:status/:state/:dependents/:retirement', (req, res) => {
     const { year, gross, status, state, dependents, retirement } = req.params;
     const tax_year = parseInt(year) || 2025; // Default to 2025 if not provided
     const grossIncome = parseFloat(gross);
     const filing_status = req.params.status.toLowerCase();
     const numDependents = parseInt(dependents) || 0;
     const retirementPct = parseFloat(retirement) || 0;
+    const yearDir = path.join(__dirname, `tax_data/${tax_year}`);
+    if (!fs.existsSync(yearDir)) {
+        return res.status(400).json({ error: 'Data not available for year' });
+    }
     if (!['single', 'married'].includes(filing_status)) return res.status(400).json({ error: 'Invalid status' });
 
     try {
