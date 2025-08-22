@@ -5,7 +5,7 @@ The API is deployed live at: https://netincomecalculator.netlify.app/.netlify/fu
 
 # Example GET Request
 To get the net income you can make a GET request on:
-https://netincomecalculator.netlify.app/.netlify/functions/taxcalculator/netincome/:gross/:status/:state
+https://netincomecalculator.netlify.app/.netlify/functions/taxcalculator/netincome/:gross/:status/:state/:dependents/:retirement
 
 To get the tax breakdown you can make a GET request on: 
-https://netincomecalculator.netlify.app/.netlify/functions/taxcalculator/taxbreakdown/:gross/:status/:state
+https://netincomecalculator.netlify.app/.netlify/functions/taxcalculator/taxbreakdown/:gross/:status/:state/:dependents/:retirement
