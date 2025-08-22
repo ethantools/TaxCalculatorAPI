@@ -18,13 +18,8 @@ router.get('/', (req, res) => {
 })
 
 function getTaxData(year, state) {
-    try {
-        const federal = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/federal.json`)));
-        const fica = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/fica.json`)));
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Tax data not found for provided year.' });
-    }
+    const federal = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/federal.json`)));
+    const fica = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/fica.json`)));
     const stateData = JSON.parse(fs.readFileSync(path.join(__dirname, `tax_data/${year}/state/${state.toUpperCase()}.json`)));
     return { federal, fica, state: stateData };
 }
