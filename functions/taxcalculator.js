@@ -47,19 +47,62 @@ function calculateFica(fica, gross, status) {
     return { ssTax, medicareTax };
 }
 
-router.get('/netincome/:gross/:status/:state', (req, res) => {
+
+// Updated: Add dependents argument and apply deductions/exemptions
+router.get('/netincome/:gross/:status/:state/:dependents', (req, res) => {
     const year = '2025';
-    const { gross, status, state } = req.params;
+    const { gross, status, state, dependents } = req.params;
     const grossIncome = parseFloat(gross);
+    const numDependents = parseInt(dependents) || 0;
     if (!['single', 'married'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
     try {
         const { federal, fica, state: stateData } = getTaxData(year, state.toLowerCase());
-        console.log('stateData:', stateData);
-        console.log('status:', status);
-        console.log('stateData[status]:', stateData[status]);
-        const fedTax = calculateBracketTax(federal[status], grossIncome);
-        const stateTax = calculateBracketTax(stateData[status], grossIncome);
+
+        // --- Federal deductions and exemptions ---
+        let fedTaxable = grossIncome;
+        let fedCredits = 0;
+        // Standard deduction
+        if (federal.standard_deduction && federal.standard_deduction[status] != null) {
+            fedTaxable -= federal.standard_deduction[status];
+        }
+        // Personal exemption
+        if (federal.personal_exemption && federal.personal_exemption[status]) {
+            const pe = federal.personal_exemption[status];
+            if (pe.credit) fedCredits += pe.amount;
+            else fedTaxable -= pe.amount;
+        }
+        // Dependent exemption
+        if (federal.personal_exemption && federal.personal_exemption.dependent) {
+            const depEx = federal.personal_exemption.dependent;
+            const depTotal = depEx.amount * numDependents;
+            if (depEx.credit) fedCredits += depTotal;
+            else fedTaxable -= depTotal;
+        }
+        fedTaxable = Math.max(0, fedTaxable);
+        const fedTax = Math.max(0, calculateBracketTax(federal[status], fedTaxable) - fedCredits);
+
+        // --- State deductions and exemptions ---
+        let stateTaxable = grossIncome;
+        let stateCredits = 0;
+        if (stateData.standard_deduction && stateData.standard_deduction[status] != null) {
+            stateTaxable -= stateData.standard_deduction[status];
+        }
+        if (stateData.personal_exemption && stateData.personal_exemption[status]) {
+            const pe = stateData.personal_exemption[status];
+            if (pe.credit) stateCredits += pe.amount;
+            else stateTaxable -= pe.amount;
+        }
+        if (stateData.personal_exemption && stateData.personal_exemption.dependent) {
+            const depEx = stateData.personal_exemption.dependent;
+            const depTotal = depEx.amount * numDependents;
+            if (depEx.credit) stateCredits += depTotal;
+            else stateTaxable -= depTotal;
+        }
+        stateTaxable = Math.max(0, stateTaxable);
+        const stateTax = Math.max(0, calculateBracketTax(stateData[status], stateTaxable) - stateCredits);
+
+        // FICA
         const { ssTax, medicareTax } = calculateFica(fica, grossIncome, status);
 
         const netIncome = grossIncome - fedTax - stateTax - ssTax - medicareTax;
@@ -71,16 +114,58 @@ router.get('/netincome/:gross/:status/:state', (req, res) => {
 });
 
 
-router.get('/taxbreakdown/:gross/:status/:state', (req, res) => {
+
+// Updated: Add dependents argument and apply deductions/exemptions
+router.get('/taxbreakdown/:gross/:status/:state/:dependents', (req, res) => {
     const year = '2025';
-    const { gross, status, state } = req.params;
+    const { gross, status, state, dependents } = req.params;
     const grossIncome = parseFloat(gross);
+    const numDependents = parseInt(dependents) || 0;
     if (!['single', 'married'].includes(status)) return res.status(400).json({ error: 'Invalid status' });
 
     try {
-        const { federal, fica, state: stateData } = getTaxData(year, state.toUpperCase());
-        const fedTax = calculateBracketTax(federal[status], grossIncome);
-        const stateTax = calculateBracketTax(stateData[status], grossIncome);
+        const { federal, fica, state: stateData } = getTaxData(year, state.toLowerCase());
+
+        // --- Federal deductions and exemptions ---
+        let fedTaxable = grossIncome;
+        let fedCredits = 0;
+        if (federal.standard_deduction && federal.standard_deduction[status] != null) {
+            fedTaxable -= federal.standard_deduction[status];
+        }
+        if (federal.personal_exemption && federal.personal_exemption[status]) {
+            const pe = federal.personal_exemption[status];
+            if (pe.credit) fedCredits += pe.amount;
+            else fedTaxable -= pe.amount;
+        }
+        if (federal.personal_exemption && federal.personal_exemption.dependent) {
+            const depEx = federal.personal_exemption.dependent;
+            const depTotal = depEx.amount * numDependents;
+            if (depEx.credit) fedCredits += depTotal;
+            else fedTaxable -= depTotal;
+        }
+        fedTaxable = Math.max(0, fedTaxable);
+        const fedTax = Math.max(0, calculateBracketTax(federal[status], fedTaxable) - fedCredits);
+
+        // --- State deductions and exemptions ---
+        let stateTaxable = grossIncome;
+        let stateCredits = 0;
+        if (stateData.standard_deduction && stateData.standard_deduction[status] != null) {
+            stateTaxable -= stateData.standard_deduction[status];
+        }
+        if (stateData.personal_exemption && stateData.personal_exemption[status]) {
+            const pe = stateData.personal_exemption[status];
+            if (pe.credit) stateCredits += pe.amount;
+            else stateTaxable -= pe.amount;
+        }
+        if (stateData.personal_exemption && stateData.personal_exemption.dependent) {
+            const depEx = stateData.personal_exemption.dependent;
+            const depTotal = depEx.amount * numDependents;
+            if (depEx.credit) stateCredits += depTotal;
+            else stateTaxable -= depTotal;
+        }
+        stateTaxable = Math.max(0, stateTaxable);
+        const stateTax = Math.max(0, calculateBracketTax(stateData[status], stateTaxable) - stateCredits);
+
         const { ssTax, medicareTax } = calculateFica(fica, grossIncome, status);
 
         res.json({

@@ -1,4 +1,13 @@
 {
+    "standard_deductions" : {
+        "single": 3605,
+        "married": 8240
+    },
+    "personal_exemption" : {
+        "single": { "amount": 9160, "credit": false },
+        "married": { "amount": 18320, "credit": false },
+        "dependent": { "amount": 2320, "credit": false }
+    },
     "single" : [
         { "bracket": 0, "rate": 0.052 },
         { "bracket": 23000, "rate": 0.0558 }
